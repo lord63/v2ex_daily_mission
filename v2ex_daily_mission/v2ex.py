@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from string import maketrans
+from __future__ import absolute_import, unicode_literals, print_function
+
 from collections import deque
 import logging
 import os
 import sys
 import json
-import re
 
 import requests
 from requests.packages import urllib3
@@ -51,13 +51,12 @@ def get_money(mission_url, balance_url):
     tree = html.fromstring(r.text)
 
     raw_once = tree.xpath('//input[@type="button"]/@onclick')[0]
-    table = maketrans('', '')
-    once = raw_once.split('=', 1)[1].translate(table, " ';")
+    once = raw_once.split('=', 1)[1][2:-2]
     if once == '/balance':
         sys.exit("You have completed the mission today.")
     else:
         headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
-        data = {'once': re.search(r'(?<=once=)\d{5}$', once).group()}
+        data = {'once': once.split('=')[-1]}
         session.get('https://www.v2ex.com'+once, verify=False,
                     headers=headers, data=data)
         get_balance(balance_url)
@@ -71,8 +70,8 @@ def get_balance(balance_url):
     today = tree.xpath(
         '//table[@class="data"]/tr[2]/td[5]/span/text()')[0].strip()
     logging.info('%-26sTotal:%-8s', today, total)
-    print "Today: {0}".format(today.encode('utf-8'))
-    print "Total: {0}".format(total.encode('utf-8'))
+    print("Today: {0}".format(today))
+    print("Total: {0}".format(total))
 
 
 def main():
@@ -82,7 +81,8 @@ def main():
 
     # get the configuration
     try:
-        with open(os.path.join(sys.path[0], 'v2ex_config.json')) as f:
+        cwd = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(cwd, 'v2ex_config.json')) as f:
             config = json.load(f)
     except IOError:
         sys.exit("Don't forget your config.json.\nPlease read "
@@ -103,7 +103,7 @@ def main():
         """
         file_path = os.path.join(config['log_directory'], 'v2ex.log')
         for line in deque(open(file_path), int(count)):
-            print line,
+            print(line, end="")
 
     @command.action
     def last():
@@ -113,7 +113,7 @@ def main():
         tree = html.fromstring(r.text)
         last = tree.xpath(
             '//div[@id="Main"]/div[@class="box"]/div[3]/text()')[0].strip()
-        print last.encode('utf-8')
+        print(last)
 
     command.parse()
 
@@ -131,9 +131,9 @@ def main():
             login(signin_url, config)
             get_money(mission_url, balance_url)
         except KeyError:
-            print 'Keyerror, please check your config file.'
+            print('Keyerror, please check your config file.')
         except IndexError:
-            print 'Please check your username and password.'
+            print('Please check your username and password.')
 
 
 if __name__ == '__main__':
