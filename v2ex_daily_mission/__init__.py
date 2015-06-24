@@ -14,6 +14,6 @@
 __title__ = "v2ex_daily_mission"
 __version__ = "0.2.4"
 __author__ = "lord63"
-__homepage__ = "https://github.com/lord63/a_bunch_of_code/tree/master/v2ex"
+__homepage__ = "https://github.com/lord63/v2ex_daily_mission"
 __license__ = "MIT"
 __copyright__ = "Copyright 2014 lord63"

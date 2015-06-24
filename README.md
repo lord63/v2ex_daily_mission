@@ -8,12 +8,6 @@
 
 模拟登录 v2ex 完成任务领钱 OvO
 
-## Requirements：
-
-*  Requests
-*  Lxml
-*  Terminal
-
 ## Install
 
     $ (sudo)pip install v2ex_daily_mission
@@ -97,5 +91,5 @@ MIT
 [1]: http://img.shields.io/pypi/v/v2ex_daily_mission.svg
 [2]: https://pypi.python.org/pypi/v2ex_daily_mission
 [3]: http://img.shields.io/badge/license-MIT-yellow.svg
-[4]: https://github.com/lord63/a_bunch_of_code/tree/master/v2ex/LICENSE
+[4]: https://github.com/lord63/v2ex_daily_mission/LICENSE
 [5]: http://img.shields.io/badge/Platform-Linux-green.svg

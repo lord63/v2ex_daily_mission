@@ -17,7 +17,7 @@ setup(
     version=v2ex_daily_mission.__version__,
     description='complete mission, get money, from v2ex',
     long_description=long_description,
-    url='https://github.com/lord63/a_bunch_of_code/tree/master/v2ex',
+    url='https://github.com/lord63/v2ex_daily_mission',
     author='lord63',
     author_email='lord63.j@gmail.com',
     license='MIT',

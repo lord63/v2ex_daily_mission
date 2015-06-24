@@ -86,7 +86,7 @@ def main():
             config = json.load(f)
     except IOError:
         sys.exit("Don't forget your config.json.\nPlease read "
-                 "https://github.com/lord63/a_bunch_of_code/tree/master/v2ex")
+                 "https://github.com/lord63/v2ex_daily_mission.")
 
     command = Command('v2ex_daily_mission',
                       description='complete the mission and get money',
