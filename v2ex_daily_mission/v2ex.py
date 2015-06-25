@@ -102,7 +102,7 @@ def main():
         """
         file_path = os.path.join(config['log_directory'], 'v2ex.log')
         for line in deque(open(file_path), int(count)):
-            print(line, end="")
+            print(line.decode('utf-8'), end="")
 
     @command.action
     def last():
