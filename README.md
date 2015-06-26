@@ -2,11 +2,18 @@
 
 [![Latest Version][1]][2]
 [![The MIT License][3]][4]
-![Platform][5]
 
 ## Intro：
 
 模拟登录 v2ex 完成任务领钱 OvO
+
+## Features
+
+* python 2.7+/3.3+ support
+* 支持 linux/windows
+* 签到领钱
+* 本地日志记录，查询
+* 查询连续登录天数
 
 ## Install
 
@@ -47,18 +54,18 @@
 
 ## Snapshots
 
-the first time you do it:
+首次签到:
 
     $ v2ex
     2014-07-31 19:12:03,417 [INFO] 20140731 的每日登录奖励 26 铜币
     Total:5439.0
 
-if you have done it:
+如果你已经签到过了:
 
     $ v2ex
     You have completed the mission today.
 
-read log file to know recent days(I set `"count": 5 `in the config file):
+本地日志查询最近签到领钱的情况(我的默认设置是 `"count": 5 `):
 
     $ v2ex read
     2014-07-27 19:12:03,902 [INFO] 20140727 的每日登录奖励 15 铜币    Total:5346.0
@@ -67,12 +74,12 @@ read log file to know recent days(I set `"count": 5 `in the config file):
     2014-07-30 19:12:03,471 [INFO] 20140730 的每日登录奖励 12 铜币    Total:5413.0
     2014-07-31 19:12:03,417 [INFO] 20140731 的每日登录奖励 26 铜币    Total:5439.0
 
-also you can use the parameter:
+你当然也可以指定显示日志的数量:
 
     $ v2ex read -c 1
     2014-07-31 19:12:03,417 [INFO] 20140731 的每日登录奖励 26 铜币    Total:5439.0
 
-get to know how long you've kept signing in:
+查询你连续登录的天数:
 
     $ v2ex last
     已连续登录 54 天
@@ -92,4 +99,3 @@ MIT
 [2]: https://pypi.python.org/pypi/v2ex_daily_mission
 [3]: http://img.shields.io/badge/license-MIT-yellow.svg
 [4]: https://github.com/lord63/v2ex_daily_mission/LICENSE
-[5]: http://img.shields.io/badge/Platform-Linux-green.svg
