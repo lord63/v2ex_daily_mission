@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, unicode_literals, print_function
+from __future__ import absolute_import, unicode_literals
 
 from collections import deque
 import os
@@ -35,6 +35,7 @@ def read_config(ctx, param, given_path):
     cfg.load_config(given_path)
     return given_path
 
+
 @click.group(context_settings={'help_option_names': ('-h', '--help')})
 @click.version_option(__version__, '-v', '--version', message='%(version)s')
 @click.option('--config', type=click.Path(exists=True, dir_okay=False),
@@ -52,11 +53,12 @@ def sign(conf):
     try:
         v2ex = V2ex(conf.config)
         v2ex.login()
-        v2ex.get_money()
+        balance = v2ex.get_money()
+        click.echo(balance)
     except KeyError:
-        print('Keyerror, please check your config file.')
+        click.echo('Keyerror, please check your config file.')
     except IndexError:
-        print('Please check your username and password.')
+        click.echo('Please check your username and password.')
 
 
 @cli.command()
@@ -66,7 +68,7 @@ def read(conf, count):
     """read log file"""
     file_path = os.path.join(conf.config['log_directory'], 'v2ex.log')
     for line in deque(open(file_path), int(count)):
-        print(line.decode('utf-8'), end="")
+        click.echo(line.decode('utf-8'), nl=False)
 
 
 @cli.command()
@@ -76,8 +78,9 @@ def last(conf):
     try:
         v2ex = V2ex(conf.config)
         v2ex.login()
-        v2ex.get_last()
+        last_date = v2ex.get_last()
+        click.echo(last_date)
     except KeyError:
-        print('Keyerror, please check your config file.')
+        click.echo('Keyerror, please check your config file.')
     except IndexError:
-        print('Please check your username and password.')
+        click.echo('Please check your username and password.')

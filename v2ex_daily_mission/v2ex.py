@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, unicode_literals, print_function
+from __future__ import absolute_import, unicode_literals
 
 import logging
 import os
-import sys
 
 import requests
 from requests.packages import urllib3
@@ -61,13 +60,14 @@ class V2ex(object):
         raw_once = tree.xpath('//input[@type="button"]/@onclick')[0]
         once = raw_once.split('=', 1)[1][2:-2]
         if once == '/balance':
-            sys.exit("You have completed the mission today.")
+            return "You have completed the mission today."
         else:
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
             data = {'once': once.split('=')[-1]}
             session.get('https://www.v2ex.com'+once, verify=False,
                         headers=headers, data=data)
-            self.get_balance()
+            balance = self.get_balance()
+            return balance
 
     def get_balance(self):
         """get to know how much you totally have and how much you get today"""
@@ -78,8 +78,8 @@ class V2ex(object):
         today = tree.xpath(
             '//table[@class="data"]/tr[2]/td[5]/span/text()')[0].strip()
         logging.info('%-26sTotal:%-8s', today, total)
-        print("Today: {0}".format(today))
-        print("Total: {0}".format(total))
+        return '\n'.join(["Today: {0}".format(today),
+                          "Total: {0}".format(total)])
 
     def get_last(self):
         """get to know how long you have kept signing in"""
@@ -87,4 +87,4 @@ class V2ex(object):
         tree = html.fromstring(r.text)
         last = tree.xpath(
             '//div[@id="Main"]/div[@class="box"]/div[3]/text()')[0].strip()
-        print(last)
+        return last
