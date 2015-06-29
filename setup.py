@@ -35,10 +35,13 @@ setup(
     ],
     keywords='v2ex daily money sign',
     packages=['v2ex_daily_mission'],
-    install_requires=['terminal','requests', 'lxml'],
+    install_requires=[
+        'click',
+        'requests',
+        'lxml'],
     include_package_data=True,
     entry_points={
         'console_scripts':[
-            'v2ex=v2ex_daily_mission.v2ex:main']
+            'v2ex=v2ex_daily_mission.cli:cli']
     }
 )
