@@ -16,9 +16,11 @@ from v2ex_daily_mission.v2ex import V2ex
 
 
 class Config(object):
-    def load_config(self, path):
+    def __init__(self):
+        self.config = {}
+    def load_config(self, config_path):
         try:
-            with open(path) as f:
+            with open(config_path) as f:
                 self.config = json.load(f)
         except IOError:
             sys.exit("Don't forget your config.json.\nPlease read "
@@ -28,12 +30,13 @@ class Config(object):
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
-def read_config(ctx, param, given_path):
+def read_config(ctx, param, config_path):
+    """Callback that is used whenever --config is passed."""
     cfg = ctx.ensure_object(Config)
-    if given_path is None:
-        given_path = path.join(sys.path[0], 'v2ex_config.json')
-    cfg.load_config(given_path)
-    return given_path
+    if config_path is None:
+        config_path = path.join(sys.path[0], 'v2ex_config.json')
+    cfg.load_config(config_path)
+    return config_path
 
 
 @click.group(context_settings={'help_option_names': ('-h', '--help')})

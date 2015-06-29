@@ -36,11 +36,11 @@ class V2ex(object):
 
     def login(self):
         """login v2ex, otherwise we can't complete the mission"""
-        r = self.session.get(self.signin_url, verify=False)
+        response = self.session.get(self.signin_url, verify=False)
         login_data = {
             'u': self.config['username'],
             'p': self.config['password'],
-            'once': self.get_once(r.text),
+            'once': self.get_once(response.text),
             'next': '/'
         }
         headers = {'Referer': 'https://www.v2ex.com/signin'}
@@ -54,8 +54,8 @@ class V2ex(object):
 
     def get_money(self):
         """complete daily mission then get the money"""
-        r = self.session.get(self.mission_url, verify=False)
-        tree = html.fromstring(r.text)
+        response = self.session.get(self.mission_url, verify=False)
+        tree = html.fromstring(response.text)
 
         raw_once = tree.xpath('//input[@type="button"]/@onclick')[0]
         once = raw_once.split('=', 1)[1][2:-2]
@@ -65,14 +65,14 @@ class V2ex(object):
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
             data = {'once': once.split('=')[-1]}
             self.session.get('https://www.v2ex.com'+once, verify=False,
-                        headers=headers, data=data)
+                             headers=headers, data=data)
             balance = self.get_balance()
             return balance
 
     def get_balance(self):
         """get to know how much you totally have and how much you get today"""
-        r = self.session.get(self.balance_url, verify=False)
-        tree = html.fromstring(r.text)
+        response = self.session.get(self.balance_url, verify=False)
+        tree = html.fromstring(response.text)
         total = tree.xpath(
             '//table[@class="data"]/tr[2]/td[4]/text()')[0].strip()
         today = tree.xpath(
@@ -83,8 +83,8 @@ class V2ex(object):
 
     def get_last(self):
         """get to know how long you have kept signing in"""
-        r = self.session.get(self.mission_url, verify=False)
-        tree = html.fromstring(r.text)
+        response = self.session.get(self.mission_url, verify=False)
+        tree = html.fromstring(response.text)
         last = tree.xpath(
             '//div[@id="Main"]/div[@class="box"]/div[3]/text()')[0].strip()
         return last
