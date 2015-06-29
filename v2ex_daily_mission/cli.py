@@ -8,6 +8,7 @@ import os
 from os import path
 import sys
 import json
+from codecs import open
 
 import click
 
@@ -20,7 +21,7 @@ class Config(object):
         self.config = {}
 
     def load_config(self, config_path):
-        with open(config_path) as f:
+        with open(config_path, encoding='utf-8') as f:
             self.config = json.load(f)
 
 
@@ -71,8 +72,8 @@ def sign(conf):
 def read(conf, count):
     """Read log file."""
     file_path = os.path.join(conf.config['log_directory'], 'v2ex.log')
-    for line in deque(open(file_path), int(count)):
-        click.echo(line.decode('utf-8'), nl=False)
+    for line in deque(open(file_path, encoding='utf-8'), int(count)):
+        click.echo(line, nl=False)
 
 
 @cli.command()
