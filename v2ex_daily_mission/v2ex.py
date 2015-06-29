@@ -11,10 +11,6 @@ from requests.packages import urllib3
 from lxml import html
 
 
-# set the session and header.
-session = requests.Session()
-session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux \
-                        x86_64; rv:28.0) Gecko/20100101 Firefox/28.0'})
 # disable urllib3 warning, see #9
 urllib3.disable_warnings()
 
@@ -25,6 +21,10 @@ class V2ex(object):
         self.balance_url = 'https://www.v2ex.com/balance'
         self.mission_url = 'https://www.v2ex.com/mission/daily'
         self.config = config
+        self.session = requests.Session()
+        self.session.headers.update(
+            {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux \
+             x86_64; rv:28.0) Gecko/20100101 Firefox/28.0'})
         # set log
         logging.basicConfig(
             filename=os.path.join(config['log_directory'], 'v2ex.log'),
@@ -36,7 +36,7 @@ class V2ex(object):
 
     def login(self):
         """login v2ex, otherwise we can't complete the mission"""
-        r = session.get(self.signin_url, verify=False)
+        r = self.session.get(self.signin_url, verify=False)
         login_data = {
             'u': self.config['username'],
             'p': self.config['password'],
@@ -44,7 +44,7 @@ class V2ex(object):
             'next': '/'
         }
         headers = {'Referer': 'https://www.v2ex.com/signin'}
-        session.post(self.signin_url, headers=headers, data=login_data)
+        self.session.post(self.signin_url, headers=headers, data=login_data)
 
     def get_once(self, page_text):
         """get once which will be used when you login"""
@@ -54,7 +54,7 @@ class V2ex(object):
 
     def get_money(self):
         """complete daily mission then get the money"""
-        r = session.get(self.mission_url, verify=False)
+        r = self.session.get(self.mission_url, verify=False)
         tree = html.fromstring(r.text)
 
         raw_once = tree.xpath('//input[@type="button"]/@onclick')[0]
@@ -64,14 +64,14 @@ class V2ex(object):
         else:
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
             data = {'once': once.split('=')[-1]}
-            session.get('https://www.v2ex.com'+once, verify=False,
+            self.session.get('https://www.v2ex.com'+once, verify=False,
                         headers=headers, data=data)
             balance = self.get_balance()
             return balance
 
     def get_balance(self):
         """get to know how much you totally have and how much you get today"""
-        r = session.get(self.balance_url, verify=False)
+        r = self.session.get(self.balance_url, verify=False)
         tree = html.fromstring(r.text)
         total = tree.xpath(
             '//table[@class="data"]/tr[2]/td[4]/text()')[0].strip()
@@ -83,7 +83,7 @@ class V2ex(object):
 
     def get_last(self):
         """get to know how long you have kept signing in"""
-        r = session.get(self.mission_url, verify=False)
+        r = self.session.get(self.mission_url, verify=False)
         tree = html.fromstring(r.text)
         last = tree.xpath(
             '//div[@id="Main"]/div[@class="box"]/div[3]/text()')[0].strip()
