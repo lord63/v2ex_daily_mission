@@ -11,7 +11,7 @@ from requests.packages import urllib3
 from lxml import html
 
 
-# disable urllib3 warning, see #9
+# Disable urllib3 warning, see lord63/a_bunch_of_code#9.
 urllib3.disable_warnings()
 
 
@@ -25,17 +25,16 @@ class V2ex(object):
         self.session.headers.update(
             {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux \
              x86_64; rv:28.0) Gecko/20100101 Firefox/28.0'})
-        # set log
         logging.basicConfig(
             filename=os.path.join(config['log_directory'], 'v2ex.log'),
             level='INFO',
             format='%(asctime)s [%(levelname)s] %(message)s')
-        # disable log message from the requests library
+        # Disable log message from the requests library.
         requests_log = logging.getLogger("requests")
         requests_log.setLevel(logging.WARNING)
 
     def login(self):
-        """login v2ex, otherwise we can't complete the mission"""
+        """Login v2ex, otherwise we can't complete the mission."""
         response = self.session.get(self.signin_url, verify=False)
         login_data = {
             'u': self.config['username'],
@@ -47,13 +46,13 @@ class V2ex(object):
         self.session.post(self.signin_url, headers=headers, data=login_data)
 
     def get_once(self, page_text):
-        """get once which will be used when you login"""
+        """Get once which will be used when you login."""
         tree = html.fromstring(page_text)
         once = tree.xpath('//input[@name="once"]/@value')[0]
         return once
 
     def get_money(self):
-        """complete daily mission then get the money"""
+        """Complete daily mission then get the money."""
         response = self.session.get(self.mission_url, verify=False)
         tree = html.fromstring(response.text)
 
@@ -70,7 +69,7 @@ class V2ex(object):
             return balance
 
     def get_balance(self):
-        """get to know how much you totally have and how much you get today"""
+        """Get to know how much you totally have and how much you get today."""
         response = self.session.get(self.balance_url, verify=False)
         tree = html.fromstring(response.text)
         total = tree.xpath(
@@ -82,7 +81,7 @@ class V2ex(object):
                           "Total: {0}".format(total)])
 
     def get_last(self):
-        """get to know how long you have kept signing in"""
+        """Get to know how long you have kept signing in."""
         response = self.session.get(self.mission_url, verify=False)
         tree = html.fromstring(response.text)
         last = tree.xpath(

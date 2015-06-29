@@ -43,7 +43,7 @@ def read_config(ctx, param, config_path):
 @click.version_option(__version__, '-v', '--version', message='%(version)s')
 @click.option('--config', type=click.Path(exists=True, dir_okay=False),
               callback=read_config, expose_value=False,
-              help='specify the config file path')
+              help='Specify the config file path.')
 def cli():
     """Complete daily mission, get money, for V2EX."""
     pass
@@ -52,7 +52,7 @@ def cli():
 @cli.command()
 @pass_config
 def sign(conf):
-    """sign in and get money"""
+    """Sign in and get money."""
     try:
         v2ex = V2ex(conf.config)
         v2ex.login()
@@ -68,7 +68,7 @@ def sign(conf):
 @click.option('--count', '-c', default=5, help="the count of days.")
 @pass_config
 def read(conf, count):
-    """read log file"""
+    """Read log file."""
     file_path = os.path.join(conf.config['log_directory'], 'v2ex.log')
     for line in deque(open(file_path), int(count)):
         click.echo(line.decode('utf-8'), nl=False)
@@ -77,7 +77,7 @@ def read(conf, count):
 @cli.command()
 @pass_config
 def last(conf):
-    """how long you have kept signing in"""
+    """How long you have kept signing in."""
     try:
         v2ex = V2ex(conf.config)
         v2ex.login()
