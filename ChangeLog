@@ -1,20 +1,37 @@
+2015.06.29 v0.4.0
+- add:
+    - add windows support(tested on win thin pc)
+    - add '--config' option, you can specify the config file now
+- change:
+    - break change, the main command to get money: v2ex -> v2ex sign
+    - rewrite with click
+    - depecate: don't need 'count' in your config file any more, default to 5
+    - drop 2.6 support, although it may works
+
 2015.06.24 v0.3.0
-- python 3.x support
+- add:
+    - python 3.x support
 
 2015.02.09 v0.2.4
-- 解决了安装时的 importError 错误
+- fix:
+    - fix importError when install v2ex_daily_mission
 
 2015.02.06 v0.2.3
-- 将命令从 v2ex_daily_mission 改为 v2ex
+- change:
+    - break change, change the command: v2ex_daily_mission -> v2ex
 
 2015.01.27 v0.2.2
-- 解决突然不能得到 money 的问题,fix #16
+- fix:
+    - fix the problem that fail to get money, fix #16
 
 2014.09.02 v0.2.1
-- 解决了InsecureRequestWarning 的问题，fix #9
+- fix:
+    - fix InsecureRequestWarning problem, fix #9
 
 2014.09.02 v0.2.0
-- 增加了查询连续签到天数的功能，fix #8
+- add:
+    - new feature: you can check how long you've kept sigining in,
+      fix #8
 
 2014.07.31 v0.1.0
-- 初始版本，能够模拟签到，查看签到记录，fix #4
+- initial version, you can get money and read the log file, fix #4

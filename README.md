@@ -21,20 +21,25 @@
 
 ## How to use：
 
-在 `/usr/local/bin/` 目录下新建文件 `v2ex_config.json`, 像这样：
+Linux 用户在 `/usr/local/bin/` 目录下新建文件 `v2ex_config.json`,
+Windows 用户在 `C:\\PythonXX\\Scripts\\` 目录下新建文件 `v2ex_config.json`, 像这样：
 
     {
         "username": "xxxx",
         "password": "xxxx",
-        "log_directory": "/path/to/save/logfile/",
-        "count": 5   # 查看默认的最近的情况的天数，可以自己设置
+        "log_directory": "path_to_logfile"
     }
+
+注意 Linux 和 Windows 下的目录分隔符不一样，举个例子：
+
+* Linux: `/home/lord63/code/v2ex_daily_mission/`
+* Windows: `E:\\code\\v2ex_daily_mission\\`
 
 完成任务得到钱：
 
-    $ v2ex
+    $ v2ex sign
 
-查看最近的情况(默认天数在 v2ex_config.josn 的 count 中设置)：
+查看最近的情况(默认天数 5 )：
 
     $ v2ex read
 
@@ -48,7 +53,7 @@
 
 通过 `v2ex -h` 和 `v2ex read -h` 获得使用帮助
 
-建议将任务加入 `cron` 定时运行, 比如我的：
+Linux 用户建议将任务加入 `cron` 定时运行, 比如我的：
 
     12 19 * * * /usr/local/bin/v2ex
 
@@ -56,16 +61,16 @@
 
 首次签到:
 
-    $ v2ex
+    $ v2ex sign
     2014-07-31 19:12:03,417 [INFO] 20140731 的每日登录奖励 26 铜币
     Total:5439.0
 
 如果你已经签到过了:
 
-    $ v2ex
+    $ v2ex sign
     You have completed the mission today.
 
-本地日志查询最近签到领钱的情况(我的默认设置是 `"count": 5 `):
+本地日志查询最近签到领钱的情况(默认设置是 5 ):
 
     $ v2ex read
     2014-07-27 19:12:03,902 [INFO] 20140727 的每日登录奖励 15 铜币    Total:5346.0
@@ -83,12 +88,6 @@
 
     $ v2ex last
     已连续登录 54 天
-
-## Reference：
-
-* [1](http://www.v2ex.com/t/69166)
-* [2](http://www.v2ex.com/t/80927)
-* [3](http://www.v2ex.com/t/68549)
 
 ## License
 
