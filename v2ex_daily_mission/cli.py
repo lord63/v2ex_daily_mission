@@ -18,13 +18,10 @@ from v2ex_daily_mission.v2ex import V2ex
 class Config(object):
     def __init__(self):
         self.config = {}
+
     def load_config(self, config_path):
-        try:
-            with open(config_path) as f:
-                self.config = json.load(f)
-        except IOError:
-            sys.exit("Don't forget your config.json.\nPlease read "
-                     "https://github.com/lord63/v2ex_daily_mission.")
+        with open(config_path) as f:
+            self.config = json.load(f)
 
 
 pass_config = click.make_pass_decorator(Config, ensure=True)
@@ -35,7 +32,11 @@ def read_config(ctx, param, config_path):
     cfg = ctx.ensure_object(Config)
     if config_path is None:
         config_path = path.join(sys.path[0], 'v2ex_config.json')
-    cfg.load_config(config_path)
+    if not path.exists(path.abspath(config_path)):
+        sys.exit("Can't find config file at {0}.\nPlease read "
+                 "https://github.com/lord63/v2ex_daily_mission "
+                 "to follow the guide.".format(config_path))
+    cfg.load_config(path.abspath(config_path))
     return config_path
 
 
