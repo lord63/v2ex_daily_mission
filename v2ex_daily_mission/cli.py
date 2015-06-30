@@ -71,7 +71,8 @@ def sign(conf):
 @pass_config
 def read(conf, count):
     """Read log file."""
-    file_path = os.path.join(conf.config['log_directory'], 'v2ex.log')
+    file_path = os.path.join(path.abspath(conf.config['log_directory']),
+                             'v2ex.log')
     for line in deque(open(file_path, encoding='utf-8'), int(count)):
         click.echo(line, nl=False)
 
