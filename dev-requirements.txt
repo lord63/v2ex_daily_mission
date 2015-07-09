@@ -3,4 +3,4 @@ click
 lxml
 pytest
 pytest-pep8
-reponses
+responses
