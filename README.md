@@ -1,7 +1,7 @@
 # v2ex_daily_mission
 
 [![Latest Version][1]][2]
-[![The MIT License][3]][4]
+[![Build Status][3]][4]
 
 ## Intro：
 
@@ -55,7 +55,7 @@ Windows 用户在 `C:\\PythonXX\\Scripts\\` 目录下新建文件 `v2ex_config.j
 
 Linux 用户建议将任务加入 `cron` 定时运行, 比如我的：
 
-    12 19 * * * /usr/local/bin/v2ex
+    12 19 * * * /usr/local/bin/v2ex sign
 
 ## Snapshots
 
@@ -96,5 +96,5 @@ MIT
 
 [1]: http://img.shields.io/pypi/v/v2ex_daily_mission.svg
 [2]: https://pypi.python.org/pypi/v2ex_daily_mission
-[3]: http://img.shields.io/badge/license-MIT-yellow.svg
-[4]: https://github.com/lord63/v2ex_daily_mission/LICENSE
+[3]: https://travis-ci.org/lord63/v2ex_daily_mission.svg
+[4]: https://travis-ci.org/lord63/v2ex_daily_mission
