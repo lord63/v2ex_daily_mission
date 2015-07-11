@@ -1,0 +1,6 @@
+requests
+click
+lxml
+pytest
+pytest-pep8
+responses
