@@ -51,7 +51,12 @@ Windows 用户在 `C:\\PythonXX\\Scripts\\` 目录下新建文件 `v2ex_config.j
 
     $ v2ex last
 
-通过 `v2ex -h` 和 `v2ex read -h` 获得使用帮助
+以上的是使用默认的配置文件，你也可以自己手动指定配置文件的地址，使用 `--config` 参数，
+比如在 Linux 下：
+
+    $ v2ex --config /home/lord63/v2ex_config.json sign
+
+通过 `v2ex -h` 和 `v2ex read -h` 获得使用更为详细的使用帮助
 
 Linux 用户建议将任务加入 `cron` 定时运行, 比如我的：
 
