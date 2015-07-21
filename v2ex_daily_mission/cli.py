@@ -30,6 +30,8 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 
 def read_config(ctx, param, config_path):
     """Callback that is used whenever --config is passed."""
+    if sys.argv[1] == 'init':
+        return
     cfg = ctx.ensure_object(Config)
     if config_path is None:
         config_path = path.join(sys.path[0], 'v2ex_config.json')
@@ -49,6 +51,32 @@ def read_config(ctx, param, config_path):
 def cli():
     """Complete daily mission, get money, for V2EX."""
     pass
+
+
+@cli.command()
+@click.option(
+    '--directory', default=sys.path[0],
+    type=click.Path(exists=True, file_okay=False, resolve_path=True),
+    help='the config file path directory.')
+def init(directory):
+    """Init the config fle."""
+    username = click.prompt("Input your username")
+    password = click.prompt("Input your password", hide_input=True,
+                            confirmation_prompt=True)
+    log_directory = click.prompt("Input your log directory")
+
+    if not path.exists(log_directory):
+        sys.exit("Invalid log directory, please have a check.")
+
+    config_file_path = path.join(directory, 'v2ex_config.json')
+    config = {
+        "username": username,
+        "password": password,
+        "log_directory": path.abspath(log_directory)
+    }
+    with open(config_file_path, 'w') as f:
+        json.dump(config, f)
+    click.echo("Init the config file at: {0}".format(config_file_path))
 
 
 @cli.command()
