@@ -35,17 +35,18 @@ def read_config(ctx, param, config_path):
     cfg = ctx.ensure_object(Config)
     if config_path is None:
         config_path = path.join(sys.path[0], 'v2ex_config.json')
-    if not path.exists(path.abspath(config_path)):
+    if not path.exists(config_path):
         sys.exit("Can't find config file at {0}.\nPlease read "
                  "https://github.com/lord63/v2ex_daily_mission "
                  "to follow the guide.".format(config_path))
-    cfg.load_config(path.abspath(config_path))
+    cfg.load_config(config_path)
     return config_path
 
 
 @click.group(context_settings={'help_option_names': ('-h', '--help')})
 @click.version_option(__version__, '-v', '--version', message='%(version)s')
-@click.option('--config', type=click.Path(exists=True, dir_okay=False),
+@click.option('--config',
+              type=click.Path(exists=True, dir_okay=False, resolve_path=True),
               callback=read_config, expose_value=False,
               help='Specify the config file path.')
 def cli():
