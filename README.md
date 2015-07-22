@@ -9,8 +9,8 @@
 
 ## Features
 
-* python 2.7+/3.3+ support
-* 支持 linux/windows
+* Python 2.7+/3.3+ support
+* 支持 Linux/Windows
 * 签到领钱
 * 本地日志记录，查询
 * 查询连续登录天数
@@ -21,19 +21,27 @@
 
 ## How to use：
 
-Linux 用户在 `/usr/local/bin/` 目录下新建文件 `v2ex_config.json`,
-Windows 用户在 `C:\\PythonXX\\Scripts\\` 目录下新建文件 `v2ex_config.json`, 像这样：
+### set up the configuration
 
-    {
-        "username": "xxxx",
-        "password": "xxxx",
-        "log_directory": "path_to_logfile"
-    }
+你可以选择手动新建配置文件(Linux 用户: `/usr/local/bin/v2ex_config.json`, Windows 用户:
+`C:\\PythonXX\\Scripts\\v2ex_config.json`)。
 
-注意 Linux 和 Windows 下的目录分隔符不一样，举个例子：
+或者试试自带的子命令(可能需要 root 权限或者管理员权限)：
+
+    $ v2ex init
+
+按照提示输入用户名，密码和日志路径即可。 在设置日志文件路径时注意 Linux 和 Windows 下的目
+录分隔符不一样，举个例子：
 
 * Linux: `/home/lord63/code/v2ex_daily_mission/`
 * Windows: `E:\\code\\v2ex_daily_mission\\`
+
+生成的配置文件的默认地址， Linux 在 `/usr/local/bin/v2ex_config.json`, Windows 用户在
+`C:\\PythonXX\\Scripts\\v2ex_config.json`。你也可以手动指定生成的配置文件的路径：
+
+    $ v2ex init --directory /home/lord63/code/v2ex_daily_mission
+
+### start using it
 
 完成任务得到钱：
 
@@ -56,7 +64,7 @@ Windows 用户在 `C:\\PythonXX\\Scripts\\` 目录下新建文件 `v2ex_config.j
 
     $ v2ex --config /home/lord63/v2ex_config.json sign
 
-通过 `v2ex -h` 和 `v2ex read -h` 获得使用更为详细的使用帮助
+通过 `v2ex -h` 和各个子命令的帮助文档获得使用更为详细的使用帮助
 
 Linux 用户建议将任务加入 `cron` 定时运行, 比如我的：
 
