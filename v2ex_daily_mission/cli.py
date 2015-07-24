@@ -44,7 +44,7 @@ def read_config(ctx, param, config_path):
 
 
 @click.group(context_settings={'help_option_names': ('-h', '--help')})
-@click.version_option(__version__, '-v', '--version', message='%(version)s')
+@click.version_option(__version__, '-V', '--version', message='%(version)s')
 @click.option('--config',
               type=click.Path(exists=True, dir_okay=False, resolve_path=True),
               callback=read_config, expose_value=False,
