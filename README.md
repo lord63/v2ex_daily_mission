@@ -26,6 +26,12 @@
 你可以选择手动新建配置文件(Linux 用户: `/usr/local/bin/v2ex_config.json`, Windows 用户:
 `C:\\PythonXX\\Scripts\\v2ex_config.json`)。
 
+    {
+        "username": "your_username",
+        "password": "your_password",
+        "log_directory": "/path/to/log_directory/"
+    }
+
 或者试试自带的子命令(可能需要 root 权限或者管理员权限)：
 
     $ v2ex init
