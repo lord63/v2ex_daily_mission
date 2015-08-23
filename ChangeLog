@@ -1,3 +1,7 @@
+2015.08.23 v0.5.1
+- fix:
+	- hot fix for ``unicode_literals`` warning, #5
+
 2015.07.24 v0.5.0
 - add:
 	- now you can init the config file with subcommand `init`
