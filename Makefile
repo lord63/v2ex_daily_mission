@@ -1,3 +1,9 @@
 test:
-	@py.test -v tests/
-	@py.test --pep8 tests/ v2ex_daily_mission/
+	@py.test -v tests/;
+	@py.test --pep8 tests/ v2ex_daily_mission/;
+
+build:
+	@python setup.py sdist bdist_wheel;
+
+upload:
+	@python setup.py sdist bdist_wheel upload;

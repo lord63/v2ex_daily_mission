@@ -38,7 +38,7 @@ setup(
     keywords='v2ex daily money sign',
     packages=['v2ex_daily_mission'],
     install_requires=[
-        'click>=4.0, <=4.1',
+        'click>=5.0',
         'requests>=2.7.0',
         'lxml>=3.4.4'],
     include_package_data=True,
