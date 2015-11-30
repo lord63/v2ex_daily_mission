@@ -117,6 +117,26 @@ Linux 用户建议将任务加入 `cron` 定时运行, 比如我的：
     $ v2ex last
     已连续登录 54 天
 
+## Development
+
+install the requirements first, it's recommended to use virtualenv:
+
+    $ virtualenv venv
+    $ . venv/bin/activate
+    (venv)$ pip install -r dev-requirements.txt
+
+install the package under development mode:
+
+    (venv)$ python setup.py develop
+
+run tests under the current python version:
+
+    (venv)$ make test
+
+or you can run tests under python2.7, 3.3 and 3.4
+
+    (venv)$ tox
+
 ## License
 
 MIT

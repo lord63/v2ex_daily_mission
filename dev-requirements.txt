@@ -4,3 +4,4 @@ lxml
 pytest
 pytest-pep8
 responses
+tox
