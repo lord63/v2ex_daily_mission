@@ -5,7 +5,7 @@
     Tests for the `v2ex last` function
 """
 
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 
 import pytest
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 
 import logging
 import os
@@ -77,7 +77,7 @@ class V2ex(object):
         today = tree.xpath(
             '//table[@class="data"]/tr[2]/td[5]/span/text()')[0].strip()
         logging.info('%-26sTotal:%-8s', today, total)
-        return '\n'.join(["Today: {0}".format(today),
+        return '\n'.join(["Today: {0}".format(today.encode('utf-8')),
                           "Total: {0}".format(total)])
 
     def get_last(self):
