@@ -8,7 +8,7 @@ import os
 
 import requests
 from requests.packages import urllib3
-from lxml import html
+from bs4 import BeautifulSoup
 
 
 # Disable urllib3 warning, see lord63/a_bunch_of_code#9.
@@ -47,23 +47,23 @@ class V2ex(object):
 
     def get_once(self, page_text):
         """Get once which will be used when you login."""
-        tree = html.fromstring(page_text)
-        once = tree.xpath('//input[@name="once"]/@value')[0]
+        soup = BeautifulSoup(page_text, 'html.parser')
+        once = soup.find('input', attrs={'name': 'once'})['value']
         return once
 
     def get_money(self):
         """Complete daily mission then get the money."""
         response = self.session.get(self.mission_url, verify=False)
-        tree = html.fromstring(response.text)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        onclick = soup.find('input', class_='super normal button')['onclick']
+        url = onclick.split('=', 1)[1][2:-2]
 
-        raw_once = tree.xpath('//input[@type="button"]/@onclick')[0]
-        once = raw_once.split('=', 1)[1][2:-2]
-        if once == '/balance':
+        if url == '/balance':
             return "You have completed the mission today."
         else:
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
-            data = {'once': once.split('=')[-1]}
-            self.session.get('https://www.v2ex.com'+once, verify=False,
+            data = {'once': url.split('=')[-1]}
+            self.session.get('https://www.v2ex.com'+url, verify=False,
                              headers=headers, data=data)
             balance = self.get_balance()
             return balance
@@ -71,11 +71,10 @@ class V2ex(object):
     def get_balance(self):
         """Get to know how much you totally have and how much you get today."""
         response = self.session.get(self.balance_url, verify=False)
-        tree = html.fromstring(response.text)
-        total = tree.xpath(
-            '//table[@class="data"]/tr[2]/td[4]/text()')[0].strip()
-        today = tree.xpath(
-            '//table[@class="data"]/tr[2]/td[5]/span/text()')[0].strip()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        first_line = soup.select(
+            "table.data tr:nth-of-type(2)")[0].text.strip().split('\n')
+        total, today = first_line[-2:]
         logging.info('%-26sTotal:%-8s', today, total)
         return '\n'.join(["Today: {0}".format(today.encode('utf-8')),
                           "Total: {0}".format(total)])
@@ -83,7 +82,6 @@ class V2ex(object):
     def get_last(self):
         """Get to know how long you have kept signing in."""
         response = self.session.get(self.mission_url, verify=False)
-        tree = html.fromstring(response.text)
-        last = tree.xpath(
-            '//div[@id="Main"]/div[@class="box"]/div[3]/text()')[0].strip()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        last = soup.select('#Main div')[-1].text
         return last
