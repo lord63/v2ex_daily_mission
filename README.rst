@@ -5,21 +5,21 @@ v2ex\_daily\_mission
 
 ::
 
-            _____                 _       _ _                   _         _             
-           / __  \               | |     (_) |                 (_)       (_)            
-    __   __`' / /' _____  __   __| | __ _ _| |_   _   _ __ ___  _ ___ ___ _  ___  _ __  
+            _____                 _       _ _                   _         _
+           / __  \               | |     (_) |                 (_)       (_)
+    __   __`' / /' _____  __   __| | __ _ _| |_   _   _ __ ___  _ ___ ___ _  ___  _ __
     \ \ / /  / /  / _ \ \/ /  / _` |/ _` | | | | | | | '_ ` _ \| / __/ __| |/ _ \| '_ \
      \ V / ./ /__|  __/>  <  | (_| | (_| | | | |_| | | | | | | | \__ \__ \ | (_) | | | |
       \_/  \_____/\___/_/\_\  \__,_|\__,_|_|_|\__, | |_| |_| |_|_|___/___/_|\___/|_| |_|
-                                               __/ |                                    
-                                              |___/                                     
+                                               __/ |
+                                              |___/
 
-Intro：
+基本简介：
 -------
 
 模拟登录 v2ex 完成任务领钱 OvO
 
-Features
+功能和亮点
 --------
 
 -  Python 2.7+/3.3+ support
@@ -28,22 +28,21 @@ Features
 -  本地日志记录，查询
 -  查询连续登录天数
 
-Install
+基本安装
 -------
 
 ::
 
     $ (sudo)pip install v2ex_daily_mission
 
-How to use：
-------------
+如何使用
+-------
 
-set up the configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+配置文件
+~~~~~~~
 
-你可以选择手动新建配置文件(Linux 用户:
-``/usr/local/bin/v2ex_config.json``, Windows 用户:
-``C:\\PythonXX\\Scripts\\v2ex_config.json``)。
+你可以选择手动新建配置文件(Linux 用户: ``/usr/local/bin/v2ex_config.json``,
+Windows 用户: ``C:\\PythonXX\\Scripts\\v2ex_config.json``)。
 
 ::
 
@@ -59,22 +58,20 @@ set up the configuration
 
     $ v2ex init
 
-按照提示输入用户名，密码和日志路径即可。 在设置日志文件路径时注意 Linux
-和 Windows 下的目 录分隔符不一样，举个例子：
+按照提示输入用户名，密码和日志路径即可。 在设置日志文件路径时注意 Linux 和 Windows 下的目 录分隔符不一样，举个例子：
 
 -  Linux: ``/home/lord63/code/v2ex_daily_mission/``
 -  Windows: ``E:\\code\\v2ex_daily_mission\\``
 
-生成的配置文件的默认地址， Linux 在 ``/usr/local/bin/v2ex_config.json``,
-Windows 用户在
+生成的配置文件的默认地址， Linux 在 ``/usr/local/bin/v2ex_config.json``, Windows 用户在
 ``C:\\PythonXX\\Scripts\\v2ex_config.json``\ 。你也可以手动指定生成的配置文件的路径：
 
 ::
 
     $ v2ex init --directory /home/lord63/code/v2ex_daily_mission
 
-start using it
-~~~~~~~~~~~~~~
+开始使用
+~~~~~~~
 
 完成任务得到钱：
 
@@ -82,7 +79,7 @@ start using it
 
     $ v2ex sign
 
-查看最近的情况(默认天数 5 )：
+查看最近的日志情况(默认天数 5 )：
 
 ::
 
@@ -100,8 +97,7 @@ start using it
 
     $ v2ex last
 
-以上的是使用默认的配置文件，你也可以自己手动指定配置文件的地址，使用
-``--config`` 参数， 比如在 Linux 下：
+以上的是使用默认的配置文件，你也可以自己手动指定配置文件的地址，使用 ``--config`` 参数， 比如在 Linux 下：
 
 ::
 
@@ -115,8 +111,8 @@ Linux 用户建议将任务加入 ``cron`` 定时运行, 比如我的：
 
     12 19 * * * /usr/local/bin/v2ex sign
 
-Snapshots
----------
+实际使用举例
+----------
 
 首次签到:
 
@@ -161,7 +157,7 @@ Snapshots
 Development
 -----------
 
-install the requirements first, it’s recommended to use virtualenv:
+首先安装依赖，推荐使用 virtualenv:
 
 ::
 
@@ -169,19 +165,19 @@ install the requirements first, it’s recommended to use virtualenv:
     $ . venv/bin/activate
     (venv)$ pip install -r dev-requirements.txt
 
-install the package under development mode:
+安装开发版本下的 v2ex_daily_mission, 方便调试和测试:
 
 ::
 
     (venv)$ python setup.py develop
 
-run tests under the current python version:
+运行测试:
 
 ::
 
     (venv)$ make test
 
-or you can run tests under python2.7, 3.3 and 3.4
+也可以使用 tox 在 python2.7, 3.3 和 3.4 运行测试：
 
 ::
 
