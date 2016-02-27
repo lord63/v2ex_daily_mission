@@ -40,7 +40,7 @@ setup(
     install_requires=[
         'click>=5.0',
         'requests>=2.7.0',
-        'lxml>=3.4.4'],
+        'beautifulsoup4>=4.4.1'],
     include_package_data=True,
     entry_points={
         'console_scripts':[
