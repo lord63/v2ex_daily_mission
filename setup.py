@@ -5,12 +5,10 @@ from setuptools import setup
 
 import v2ex_daily_mission
 
-try:
-    import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
-except (IOError, ImportError):
-    with open('README.md') as f:
-        long_description = f.read()
+
+with open('README.rst') as f:
+    long_description = f.read()
+
 
 setup(
     name='v2ex_daily_mission',
