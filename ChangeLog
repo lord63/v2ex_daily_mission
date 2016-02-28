@@ -1,3 +1,6 @@
+2016.02.27 v0.6.0
+- replace lxml with beautifulsoup4, #7
+
 2015.11.30 v0.5.2
 - fix:
     - remove unicode_literals, update click >= 5.0, close #5
