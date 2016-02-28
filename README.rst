@@ -15,12 +15,12 @@ v2ex\_daily\_mission
                                               |___/
 
 基本简介：
--------
+----------
 
 模拟登录 v2ex 完成任务领钱 OvO
 
 功能和亮点
---------
+----------
 
 -  Python 2.7+/3.3+ support
 -  支持 Linux/Windows
@@ -29,17 +29,17 @@ v2ex\_daily\_mission
 -  查询连续登录天数
 
 基本安装
--------
+--------
 
 ::
 
     $ (sudo)pip install v2ex_daily_mission
 
 如何使用
--------
+--------
 
 配置文件
-~~~~~~~
+~~~~~~~~
 
 你可以选择手动新建配置文件(Linux 用户: ``/usr/local/bin/v2ex_config.json``,
 Windows 用户: ``C:\\PythonXX\\Scripts\\v2ex_config.json``)。
@@ -71,7 +71,7 @@ Windows 用户: ``C:\\PythonXX\\Scripts\\v2ex_config.json``)。
     $ v2ex init --directory /home/lord63/code/v2ex_daily_mission
 
 开始使用
-~~~~~~~
+~~~~~~~~
 
 完成任务得到钱：
 
@@ -112,7 +112,7 @@ Linux 用户建议将任务加入 ``cron`` 定时运行, 比如我的：
     12 19 * * * /usr/local/bin/v2ex sign
 
 实际使用举例
-----------
+------------
 
 首次签到:
 
