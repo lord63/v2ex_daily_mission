@@ -12,7 +12,7 @@
 """
 
 __title__ = "v2ex_daily_mission"
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 __author__ = "lord63"
 __homepage__ = "https://github.com/lord63/v2ex_daily_mission"
 __license__ = "MIT"
