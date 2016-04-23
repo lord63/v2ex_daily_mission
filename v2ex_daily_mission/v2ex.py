@@ -36,14 +36,19 @@ class V2ex(object):
     def login(self):
         """Login v2ex, otherwise we can't complete the mission."""
         response = self.session.get(self.signin_url, verify=False)
+        user_param, password_param = self.get_hashed_params(response.text)
         login_data = {
-            'u': self.config['username'],
-            'p': self.config['password'],
+            user_param: self.config['username'],
+            password_param: self.config['password'],
             'once': self.get_once(response.text),
             'next': '/'
         }
         headers = {'Referer': 'https://www.v2ex.com/signin'}
         self.session.post(self.signin_url, headers=headers, data=login_data)
+
+    def get_hashed_params(self, page_text):
+        soup = BeautifulSoup(page_text, 'html.parser')
+        return [tag['name'] for tag in soup.find_all('input', class_='sl')]
 
     def get_once(self, page_text):
         """Get once which will be used when you login."""
