@@ -35,6 +35,8 @@ v2ex\_daily\_mission
 
     $ (sudo)pip install v2ex_daily_mission
 
+请确保版本号大于等于 0.6.1，V2EX 有更改过登录参数，导致之前的版本将会模拟登录失败，可以看 `issue #10`_
+
 如何使用
 --------
 
@@ -192,3 +194,4 @@ MIT
    :target: https://pypi.python.org/pypi/v2ex_daily_mission
 .. |Build Status| image:: https://travis-ci.org/lord63/v2ex_daily_mission.svg
    :target: https://travis-ci.org/lord63/v2ex_daily_mission
+.. _`issue #10`: https://github.com/lord63/v2ex_daily_mission/issues/10
