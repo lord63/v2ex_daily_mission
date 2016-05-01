@@ -82,7 +82,7 @@ class V2ex(object):
             "table.data tr:nth-of-type(2)")[0].text.strip().split('\n')
         total, today = first_line[-2:]
         logging.info('%-26sTotal:%-8s', today, total)
-        return '\n'.join(["Today: {0}".format(today.encode('utf-8')),
+        return '\n'.join([u"Today: {0}".format(today),
                           "Total: {0}".format(total)])
 
     def get_last(self):
