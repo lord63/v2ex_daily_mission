@@ -2,8 +2,7 @@
 ####################
 
 # virtualenv folder
-venv/
-venv33/
+venv*/
 
 # pycharm
 .idea/
@@ -14,7 +13,7 @@ temp/
 # database
 *.db
 
-# me-api json file
+*.DS_Store
 *.json
 
 # Belows are from https://github.com/github/gitignore/blob/master/Python.gitignore
