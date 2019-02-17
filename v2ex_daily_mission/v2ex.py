@@ -5,6 +5,7 @@ from __future__ import absolute_import
 
 import logging
 import os
+import sys
 
 import requests
 from requests.packages import urllib3
@@ -39,11 +40,15 @@ class V2ex(object):
     def login(self):
         """Login v2ex, otherwise we can't complete the mission."""
         response = self.session.get(self.signin_url, verify=False)
-        user_param, password_param, captcha = self._get_hashed_params(response.text)
+        user_param, password_param, captcha_param = self._get_hashed_params(response.text)
+        captcha_url = self._get_captcha_url(response.text)
+        if captcha_url == "":
+            sys.exit(1)
+        user_input_code = input("Open url {} and input the captcha code: ".format(captcha_url))
         login_data = {
             user_param: self.config['username'],
             password_param: self.config['password'],
-            captcha: "todo",
+            captcha_param: user_input_code.strip(),
             'once': self._get_once(response.text),
             'next': '/'
         }
