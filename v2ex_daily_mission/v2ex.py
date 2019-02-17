@@ -13,6 +13,9 @@ from bs4 import BeautifulSoup
 
 # Disable urllib3 warning, see lord63/a_bunch_of_code#9.
 urllib3.disable_warnings()
+# Compatible input for python2 and python3
+if hasattr(__builtins__, 'raw_input'):
+    input = raw_input
 
 
 class V2ex(object):
@@ -36,15 +39,32 @@ class V2ex(object):
     def login(self):
         """Login v2ex, otherwise we can't complete the mission."""
         response = self.session.get(self.signin_url, verify=False)
-        user_param, password_param = self._get_hashed_params(response.text)
+        user_param, password_param, captcha = self._get_hashed_params(response.text)
         login_data = {
             user_param: self.config['username'],
             password_param: self.config['password'],
+            captcha: "todo",
             'once': self._get_once(response.text),
             'next': '/'
         }
         headers = {'Referer': 'https://www.v2ex.com/signin'}
         self.session.post(self.signin_url, headers=headers, data=login_data)
+
+    def _get_captcha_url(self, page_text):
+        """Get the captcha image url"""
+        soup = BeautifulSoup(page_text, 'html.parser')
+        tags = soup.find_all(
+            lambda tag: tag.has_attr('style') and tag.name == 'div' and tag.parent.name == 'td'
+        )
+        if len(tags) == 0:
+            return ""
+        captcha_tag = tags[0]
+        css_attrs = [attr for attr in captcha_tag['style'].split(";") if 'background-image' in attr]
+        if len(css_attrs) == 0:
+            return ""
+        relative_image_path = css_attrs[0].split("'")[1]
+        url = '/'.join(['https://www.v2ex.com', relative_image_path.strip('/')])
+        return url
 
     def _get_hashed_params(self, page_text):
         """Get hashed params which will be used when you login, see issue#10"""
