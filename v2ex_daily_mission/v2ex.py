@@ -5,7 +5,6 @@ from __future__ import absolute_import
 
 import logging
 import os
-import sys
 
 import requests
 from requests.packages import urllib3
@@ -14,9 +13,6 @@ from bs4 import BeautifulSoup
 
 # Disable urllib3 warning, see lord63/a_bunch_of_code#9.
 urllib3.disable_warnings()
-# Compatible input for python2 and python3
-if hasattr(__builtins__, 'raw_input'):
-    input = raw_input
 
 
 class V2ex(object):
