@@ -22,7 +22,7 @@ v2ex\_daily\_mission
 功能和亮点
 ----------
 
--  Python 2.7+/3.3+ support
+-  Python 2.7+/3.4+ support
 -  支持 Linux/Windows
 -  签到领钱
 -  本地日志记录，查询
@@ -35,7 +35,7 @@ v2ex\_daily\_mission
 
     $ (sudo)pip install v2ex_daily_mission
 
-请确保版本号大于等于 0.6.1，V2EX 有更改过登录参数，导致之前的版本将会模拟登录失败，可以看 `issue #10`_
+请确保版本号大于等于 0.7.0，V2EX 增加了验证码，可以看 `issue #13`_
 
 如何使用
 --------
@@ -43,24 +43,14 @@ v2ex\_daily\_mission
 配置文件
 ~~~~~~~~
 
-你可以选择手动新建配置文件(Linux 用户: ``/usr/local/bin/v2ex_config.json``,
-Windows 用户: ``C:\\PythonXX\\Scripts\\v2ex_config.json``)。
 
-::
-
-    {
-        "username": "your_username",
-        "password": "your_password",
-        "log_directory": "/path/to/log_directory/"
-    }
-
-或者试试自带的子命令(可能需要 root 权限或者管理员权限)：
+使用自带的子命令初始化(可能需要 root 权限或者管理员权限)：
 
 ::
 
     $ v2ex init
 
-按照提示输入用户名，密码和日志路径即可。 在设置日志文件路径时注意 Linux 和 Windows 下的目 录分隔符不一样，举个例子：
+按照提示输入cookie和日志路径即可。 在设置日志文件路径时注意 Linux 和 Windows 下的目 录分隔符不一样，举个例子：
 
 -  Linux: ``/home/lord63/code/v2ex_daily_mission/``
 -  Windows: ``E:\\code\\v2ex_daily_mission\\``
@@ -81,7 +71,7 @@ Windows 用户: ``C:\\PythonXX\\Scripts\\v2ex_config.json``)。
 
     $ v2ex sign
 
-查看最近的日志情况(默认天数 5 )：
+查看最近的日志情况(默认天数 5)：
 
 ::
 
@@ -121,8 +111,8 @@ Linux 用户建议将任务加入 ``cron`` 定时运行, 比如我的：
 ::
 
     $ v2ex sign
-    2014-07-31 19:12:03,417 [INFO] 20140731 的每日登录奖励 26 铜币
-    Total:5439.0
+    Today: 20140731 的每日登录奖励 26 铜币
+    Total: 5439.0
 
 如果你已经签到过了:
 
@@ -179,7 +169,7 @@ Development
 
     (venv)$ make test
 
-也可以使用 tox 在 python2.7, 3.3 和 3.4 运行测试：
+也可以使用 tox 在 python2.7, 3.4+ 运行测试：
 
 ::
 
@@ -194,4 +184,4 @@ MIT
    :target: https://pypi.python.org/pypi/v2ex_daily_mission
 .. |Build Status| image:: https://travis-ci.org/lord63/v2ex_daily_mission.svg
    :target: https://travis-ci.org/lord63/v2ex_daily_mission
-.. _`issue #10`: https://github.com/lord63/v2ex_daily_mission/issues/10
+.. _`issue #13`: https://github.com/lord63/v2ex_daily_mission/issues/13

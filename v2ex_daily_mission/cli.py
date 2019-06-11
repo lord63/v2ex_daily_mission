@@ -61,9 +61,7 @@ def cli():
     help='the config file path directory.')
 def init(directory):
     """Init the config fle."""
-    username = click.prompt("Input your username")
-    password = click.prompt("Input your password", hide_input=True,
-                            confirmation_prompt=True)
+    cookie = click.prompt("Input your cookie")
     log_directory = click.prompt("Input your log directory")
 
     if not path.exists(log_directory):
@@ -71,8 +69,7 @@ def init(directory):
 
     config_file_path = path.join(directory, 'v2ex_config.json')
     config = {
-        "username": username,
-        "password": password,
+        "cookie": cookie,
         "log_directory": path.abspath(log_directory)
     }
     with open(config_file_path, 'w') as f:
@@ -86,7 +83,6 @@ def sign(conf):
     """Sign in and get money."""
     try:
         v2ex = V2ex(conf.config)
-        v2ex.login()
         balance = v2ex.get_money()
         click.echo(balance)
     except KeyError:
@@ -112,7 +108,6 @@ def last(conf):
     """How long you have kept signing in."""
     try:
         v2ex = V2ex(conf.config)
-        v2ex.login()
         last_date = v2ex.get_last()
         click.echo(last_date)
     except KeyError:
