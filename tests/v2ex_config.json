@@ -1,5 +1,4 @@
 {
-    "username": "test",
-    "password": "example",
+    "cookie": "default_font=font2; locale=zh-CN;",
     "log_directory": "./tests/"
 }

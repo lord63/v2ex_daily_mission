@@ -37,7 +37,7 @@ class V2ex(object):
         # Disable log message from the requests library.
         requests_log = logging.getLogger("requests")
         requests_log.setLevel(logging.WARNING)
-    
+
     def _make_cookie(self, config):
         return dict([i.split('=', 1) for i in config["cookie"].split('; ')])
 
