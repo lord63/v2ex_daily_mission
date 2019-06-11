@@ -23,7 +23,6 @@ v2ex\_daily\_mission
 ----------
 
 -  Python 2.7+/3.4+ support
--  支持 Linux/Windows
 -  签到领钱
 -  本地日志记录，查询
 -  查询连续登录天数
@@ -33,16 +32,22 @@ v2ex\_daily\_mission
 
 ::
 
-    $ (sudo)pip install v2ex_daily_mission
+    $ (sudo)pip -U install v2ex_daily_mission
 
-请确保版本号大于等于 0.7.0，V2EX 增加了验证码，可以看 `issue #13`_
+请确保版本号大于等于 0.7.0，因为 V2EX 增加了验证码，可以看 `issue #13`_
 
 如何使用
 --------
 
+获得cookie
+~~~~~~~~~~
+
+1. 登录v2ex
+2. 页面任意一处右键，选择Inspect，然后在弹出的工具栏里选择Network
+3. 刷新页面，选择一个请求，找到Request Headers里的cookie一栏，全部复制，下一步要用
+
 配置文件
 ~~~~~~~~
-
 
 使用自带的子命令初始化(可能需要 root 权限或者管理员权限)：
 
@@ -50,13 +55,9 @@ v2ex\_daily\_mission
 
     $ v2ex init
 
-按照提示输入cookie和日志路径即可。 在设置日志文件路径时注意 Linux 和 Windows 下的目 录分隔符不一样，举个例子：
+按照提示输入cookie和日志路径即可。日志路径举个例子：``/home/lord63/code/v2ex_daily_mission/``。
 
--  Linux: ``/home/lord63/code/v2ex_daily_mission/``
--  Windows: ``E:\\code\\v2ex_daily_mission\\``
-
-生成的配置文件的默认地址， Linux 在 ``/usr/local/bin/v2ex_config.json``, Windows 用户在
-``C:\\PythonXX\\Scripts\\v2ex_config.json``\ 。你也可以手动指定生成的配置文件的路径：
+生成的配置文件的默认地址， Linux 在 ``/usr/local/bin/v2ex_config.json``。你也可以手动指定生成的配置文件的路径：
 
 ::
 
