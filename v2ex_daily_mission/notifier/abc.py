@@ -3,7 +3,14 @@
 
 from __future__ import absolute_import
 
-from abc import ABC, abstractmethod
+import sys
+import abc
+from abc import abstractmethod
+
+if sys.version_info >= (3, 4):
+    ABC = abc.ABC
+else:
+    ABC = abc.ABCMeta('ABC', (), {})
 
 
 class NotificationSendFailedException(Exception):
