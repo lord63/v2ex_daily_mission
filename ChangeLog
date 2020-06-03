@@ -1,3 +1,6 @@
+2020.06.03 v0.8.1
+- fix package problem
+
 2020.06.03 v0.8.0
 - support notify when sign failed
 - drop python 3.4, add 3.6+ support
