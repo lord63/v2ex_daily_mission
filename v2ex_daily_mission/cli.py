@@ -14,6 +14,7 @@ import click
 
 from v2ex_daily_mission import __version__
 from v2ex_daily_mission.v2ex import V2ex
+from v2ex_daily_mission.notifier import BarkNotifier, NoneNotifier, SlackNotifier
 
 
 class Config(object):
@@ -43,6 +44,16 @@ def read_config(ctx, param, config_path):
     return config_path
 
 
+def initialize_nitifier(config):
+    if 'notifier' not in config:
+        return NoneNotifier(config)
+    if 'bark' in config['notifier']:
+        return BarkNotifier(config)
+    elif 'slack' in config['notifier']:
+        return SlackNotifier(config)
+    return NoneNotifier(config)
+
+
 @click.group(context_settings={'help_option_names': ('-h', '--help')})
 @click.version_option(__version__, '-V', '--version', message='%(version)s')
 @click.option('--config',
@@ -62,16 +73,29 @@ def cli():
 def init(directory):
     """Init the config fle."""
     cookie = click.prompt("Input your cookie")
-    log_directory = click.prompt("Input your log directory")
 
+    log_directory = click.prompt("Input your log directory")
     if not path.exists(log_directory):
         sys.exit("Invalid log directory, please have a check.")
 
-    config_file_path = path.join(directory, 'v2ex_config.json')
+    notifier = click.prompt(
+        "Input your notifier",
+        default='none',
+        type=click.Choice(['bark', 'slack', 'none'], case_sensitive=False),
+        show_choices=True,
+        show_default=True
+    )
+    if notifier != 'none':
+        notifier_url = click.prompt("Input your notifier url")
+
     config = {
         "cookie": cookie,
         "log_directory": path.abspath(log_directory)
     }
+    if notifier != 'none':
+        config['notifier'] = {notifier: {'url': notifier_url}}
+
+    config_file_path = path.join(directory, 'v2ex_config.json')
     with open(config_file_path, 'w') as f:
         json.dump(config, f)
     click.echo("Init the config file at: {0}".format(config_file_path))
@@ -81,14 +105,20 @@ def init(directory):
 @pass_config
 def sign(conf):
     """Sign in and get money."""
+    notifier = initialize_nitifier(conf.config)
     try:
         v2ex = V2ex(conf.config)
         balance = v2ex.get_money()
         click.echo(balance)
     except KeyError:
+        notifier.send_notification()
         click.echo('Keyerror, please check your config file.')
     except IndexError:
+        notifier.send_notification()
         click.echo('Please check your username and password.')
+    except Exception as e:
+        notifier.send_notification()
+        click.echo('Sign failed, error: {}.'.format(e))
 
 
 @cli.command()
@@ -114,3 +144,15 @@ def last(conf):
         click.echo('Keyerror, please check your config file.')
     except IndexError:
         click.echo('Please check your username and password.')
+
+
+@cli.command()
+@pass_config
+def notify(conf):
+    """Test notify send."""
+    notifier = initialize_nitifier(conf.config)
+    if isinstance(notifier, NoneNotifier):
+        click.echo("There is no notifier configuration.")
+        return
+    notifier.send_notification()
+    click.echo("send notification success.")
