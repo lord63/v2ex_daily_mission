@@ -22,7 +22,7 @@ v2ex\_daily\_mission
 功能和亮点
 ----------
 
--  Python 2.7+/3.4+ support
+-  Python 2.7+/3.5+ support
 -  签到领钱
 -  本地日志记录，查询
 -  查询连续登录天数
