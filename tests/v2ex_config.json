@@ -1,4 +1,12 @@
 {
     "cookie": "default_font=font2; locale=zh-CN;",
-    "log_directory": "./tests/"
+    "log_directory": "./tests/",
+    "notifier": {
+        "bark": {
+            "url": "https://api.day.app/xxx/v2ex_daily_mission/sign failed"
+        },
+        "slack": {
+            "url": "https://hooks.slack.com/services/xx/yy/zz"
+        }
+    }
 }
