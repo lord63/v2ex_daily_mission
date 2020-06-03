@@ -26,6 +26,7 @@ v2ex\_daily\_mission
 -  签到领钱
 -  本地日志记录，查询
 -  查询连续登录天数
+-  签到失败提醒
 
 基本安装
 --------
@@ -55,13 +56,20 @@ v2ex\_daily\_mission
 
     $ v2ex init
 
-按照提示输入cookie和日志路径即可。日志路径举个例子：``/home/lord63/code/v2ex_daily_mission/``。
+按照提示输入cookie和日志路径。日志路径举个例子：``/home/lord63/code/v2ex_daily_mission/``。
 
 生成的配置文件的默认地址， Linux 在 ``/usr/local/bin/v2ex_config.json``。你也可以手动指定生成的配置文件的路径：
 
 ::
 
     $ v2ex init --directory /home/lord63/code/v2ex_daily_mission
+
+另外如果有需要，可以开启签到失败通知提醒，目前支持 bark_ 和 slack 通知，v0.8.0 以上版本支持。
+
+* bark配置：只支持 iOS，下载安装后，选择喜欢的格式在 ``init`` 的时候选择 bark 的通知方式并填入 url 即可。
+* slack配置：前往自定义集成页面(https://youworkspace.slack.com/apps/manage/custom-integrations)并添加一个新的 webhook 配置，
+  在 ``init`` 的时候选择 slack 的通知方式并填入 webhook url 即可
+
 
 开始使用
 ~~~~~~~~
@@ -90,6 +98,12 @@ v2ex\_daily\_mission
 
     $ v2ex last
 
+测试失败通知提醒（v0.8.0 以上版本支持）
+
+::
+
+    $ v2ex notify
+
 以上的是使用默认的配置文件，你也可以自己手动指定配置文件的地址，使用 ``--config`` 参数， 比如在 Linux 下：
 
 ::
@@ -98,11 +112,11 @@ v2ex\_daily\_mission
 
 通过 ``v2ex -h`` 和各个子命令的帮助文档获得使用更为详细的使用帮助
 
-Linux 用户建议将任务加入 ``cron`` 定时运行, 比如我的：
+Linux 用户建议将任务加入 ``cron`` 定时运行(建议每天执行两次，防止意外失败导致中断签到天数), 比如：
 
 ::
 
-    12 19 * * * /usr/local/bin/v2ex sign
+    0 9,21 * * *  /usr/local/bin/v2ex sign
 
 实际使用举例
 ------------
@@ -186,3 +200,4 @@ MIT
 .. |Build Status| image:: https://travis-ci.org/lord63/v2ex_daily_mission.svg
    :target: https://travis-ci.org/lord63/v2ex_daily_mission
 .. _`issue #13`: https://github.com/lord63/v2ex_daily_mission/issues/13
+.. _bark: https://apps.apple.com/cn/app/bark-%E7%BB%99%E4%BD%A0%E7%9A%84iphone%E5%8F%91%E6%8E%A8%E9%80%81/id1403753865
