@@ -22,7 +22,7 @@ class SlackNotifier(Notifier):
             response = requests.post(url, data=json.dumps(data))
             if response.text != 'ok':
                 raise NotificationSendFailedException(
-                    "slack notification send failed, response: {}".format(response.json)
+                    "slack notification send failed, response: {}".format(response.text)
                 )
         except requests.RequestException as e:
             raise NotificationSendFailedException(

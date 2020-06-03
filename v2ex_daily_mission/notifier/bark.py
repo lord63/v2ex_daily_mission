@@ -18,7 +18,7 @@ class BarkNotifier(Notifier):
             response = requests.get(url)
             if response.json()['code'] != 200:
                 raise NotificationSendFailedException(
-                    "bark notification send failed, response: {}".format(response.json)
+                    "bark notification send failed, response: {}".format(response.text)
                 )
         except requests.RequestException as e:
             raise NotificationSendFailedException(

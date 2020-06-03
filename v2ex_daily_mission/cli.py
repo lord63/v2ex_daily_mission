@@ -149,7 +149,7 @@ def last(conf):
 @cli.command()
 @pass_config
 def notify(conf):
-    """Test notify send"""
+    """Test notify send."""
     notifier = initialize_nitifier(conf.config)
     if isinstance(notifier, NoneNotifier):
         click.echo("There is no notifier configuration.")
