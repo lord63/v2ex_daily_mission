@@ -1,3 +1,7 @@
+2020.06.03 v0.8.0
+- support notify when sign failed
+- drop python 3.4, add 3.6+ support
+
 2019.06.12 v0.7.0
 - use cookie to to tasks
 - drop python 3.3 support and add 3.5 and 3.6
