@@ -12,11 +12,11 @@ import pytest
 from v2ex_daily_mission.cli import cli
 
 
-@pytest.mark.usefixtures("mock_api")
-class TestGetMoney:
+@pytest.mark.usefixtures('mock_api')
+class TestGetMoney():
     def test_get_money(self, runner):
         result = runner.invoke(
-            cli, ["--config", "./tests/v2ex_config.json", "sign"])
+            cli, ['--config', './tests/v2ex_config.json', 'sign'])
         assert result.exit_code == 0
         assert result.output.strip() == ("You have completed the mission today.")
 
