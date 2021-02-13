@@ -12,16 +12,16 @@ import pytest
 from v2ex_daily_mission.cli import cli
 
 
-@pytest.mark.usefixtures('mock_api')
-class TestRead():
+@pytest.mark.usefixtures("mock_api")
+class TestRead:
     def test_read_log_file(self, runner):
-        result = runner.invoke(cli, ['--config', './tests/v2ex_config.json',
-                                     'read'])
+        result = runner.invoke(cli, ["--config", "./tests/v2ex_config.json", "read"])
         assert result.exit_code == 0
-        assert len(result.output.strip().split('\n')) == 5
+        assert len(result.output.strip().split("\n")) == 5
 
     def test_read_log_file_with_parameter(self, runner):
-        result = runner.invoke(cli, ['--config', './tests/v2ex_config.json',
-                                     'read', '-c', '1'])
+        result = runner.invoke(
+            cli, ["--config", "./tests/v2ex_config.json", "read", "-c", "1"]
+        )
         assert result.exit_code == 0
-        assert len(result.output.strip().split('\n')) == 1
+        assert len(result.output.strip().split("\n")) == 1

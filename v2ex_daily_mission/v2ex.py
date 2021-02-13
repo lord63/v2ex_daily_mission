@@ -39,7 +39,8 @@ class V2ex(object):
 
     def get_money(self):
         """Complete daily mission then get the money."""
-        response = self.session.get(self.mission_url, verify=False, cookies=self.cookie)
+        response = self.session.get(
+            self.mission_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
         onclick = soup.find('input', class_='super normal button')['onclick']
         url = onclick.split('=', 1)[1][2:-2]
@@ -50,12 +51,12 @@ class V2ex(object):
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
             data = {'once': url.split('=')[-1]}
             r = self.session.get('https://www.v2ex.com'+url, verify=False,
-                             headers=headers, data=data, cookies=self.cookie,)
+                                 headers=headers, data=data, cookies=self.cookie,)
             if not self._check_cookie_valid(r):
                 raise Exception("cookie expired, please renew it.")
             balance = self._get_balance()
             return balance
-    
+
     # if you cookie can not get money, your response will have this line:
     #
     # <div id="Main">
@@ -73,7 +74,8 @@ class V2ex(object):
 
     def _get_balance(self):
         """Get to know how much you totally have and how much you get today."""
-        response = self.session.get(self.balance_url, verify=False, cookies=self.cookie)
+        response = self.session.get(
+            self.balance_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
         first_line = soup.select(
             "table.data tr:nth-of-type(2)")[0].text.strip().split('\n')
@@ -84,7 +86,8 @@ class V2ex(object):
 
     def get_last(self):
         """Get to know how long you have kept signing in."""
-        response = self.session.get(self.mission_url, verify=False, cookies=self.cookie)
+        response = self.session.get(
+            self.mission_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
         last = soup.select('#Main div')[-1].text
         return last
