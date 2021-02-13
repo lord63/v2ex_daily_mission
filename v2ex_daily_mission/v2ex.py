@@ -49,10 +49,27 @@ class V2ex(object):
         else:
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
             data = {'once': url.split('=')[-1]}
-            self.session.get('https://www.v2ex.com'+url, verify=False,
+            r = self.session.get('https://www.v2ex.com'+url, verify=False,
                              headers=headers, data=data, cookies=self.cookie,)
+            if not self._check_cookie_valid(r):
+                raise Exception("cookie expired, please renew it.")
             balance = self._get_balance()
             return balance
+    
+    # if you cookie can not get money, your response will have this line:
+    #
+    # <div id="Main">
+    # ...
+    #   <div class="message" onclick="$(this).slideUp('fast');">
+    #     <li class="fa fa-exclamation-triangle"></li>  请重新点击一次以领取每日登录奖励
+    #   </div>
+    # ...
+    # </div>
+    def _check_cookie_valid(self, response):
+        soup = BeautifulSoup(response.text, 'html.parser')
+        if not soup.select('#Main .message'):
+            return True
+        return False
 
     def _get_balance(self):
         """Get to know how much you totally have and how much you get today."""

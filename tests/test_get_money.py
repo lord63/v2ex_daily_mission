@@ -20,3 +20,7 @@ class TestGetMoney():
         assert result.exit_code == 0
         assert result.output.strip() == (
             'You have completed the mission today.')
+
+        result = runner.invoke(cli, ['--config', './tests/v2ex_config.json',
+                                     'sign'])
+        assert "cookie expired" in result.output
