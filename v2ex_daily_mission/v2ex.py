@@ -57,7 +57,7 @@ class V2ex(object):
             balance = self._get_balance()
             return balance
 
-    # if you cookie can not get money, your response will have this line:
+    # if your cookie cannot get money, your response will have this line:
     #
     # <div id="Main">
     # ...
