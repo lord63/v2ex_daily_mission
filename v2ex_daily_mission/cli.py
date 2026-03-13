@@ -14,6 +14,7 @@ import click
 
 from v2ex_daily_mission import __version__
 from v2ex_daily_mission.v2ex import V2ex
+from v2ex_daily_mission.exceptions import CookieExpiredError
 from v2ex_daily_mission.notifier import BarkNotifier, NoneNotifier, SlackNotifier
 
 
@@ -116,9 +117,12 @@ def sign(conf):
     except IndexError:
         notifier.send_notification()
         click.echo('Please check your username and password.')
+    except CookieExpiredError as e:
+        notifier.send_notification()
+        click.echo('Sign failed, error: {}'.format(e))
     except Exception as e:
         notifier.send_notification()
-        click.echo('Sign failed, error: {}.'.format(e))
+        click.echo('Sign failed, error: {}'.format(e))
 
 
 @cli.command()

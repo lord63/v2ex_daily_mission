@@ -18,14 +18,14 @@ class TestGetMoney():
         result = runner.invoke(
             cli, ['--config', './tests/v2ex_config.json', 'sign'])
         assert result.exit_code == 0
-        assert result.output.strip() == ("You have completed the mission today.")
+        assert "Today:" in result.output
+        assert "Total:" in result.output
+
+        result = runner.invoke(
+            cli, ['--config', './tests/v2ex_config.json', 'sign'])
+        assert result.exit_code == 0
+        assert result.output.strip() == "You have completed the mission today."
 
         result = runner.invoke(
             cli, ["--config", "./tests/v2ex_config.json", "sign"])
         assert "cookie expired" in result.output
-
-        result = runner.invoke(
-            cli, ["--config", "./tests/v2ex_config.json", "sign"])
-        assert result.exit_code == 0
-        assert "Today:" in result.output
-        assert "Total:" in result.output

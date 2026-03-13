@@ -16,14 +16,29 @@ ROOT = path.join(path.dirname(path.abspath(__file__)), 'responses')
 
 @pytest.yield_fixture
 def mock_api():
-    with open(path.join(ROOT, 'mission_complete.html'), encoding='utf-8') as f:
-        mock_mission_body = f.read()
+    # The responses library returns mocked responses in FIFO order for the
+    # same URL. The order here must match the order of calls in the tests:
+    # 1. mission_todo: claim reward successfully (happy path)
+    # 2. mission_complete: mission already completed today
+    # 3. mission_unfinished: cookie expired during redeem (error path)
+
+    with open(path.join(ROOT, 'mission_todo.html'), encoding='utf-8') as f:
+        mock_mission_todo_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
-                  body=mock_mission_body)
+                  body=mock_mission_todo_body)
     with open(path.join(ROOT, 'once.html'), encoding='utf-8') as f:
         mock_once_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily/redeem?once=51947',
                   body=mock_once_body)
+    with open(path.join(ROOT, 'balance.html'), encoding='utf-8') as f:
+        mock_balance_body = f.read()
+    responses.add(responses.GET, 'https://www.v2ex.com/balance',
+                  body=mock_balance_body)
+
+    with open(path.join(ROOT, 'mission_complete.html'), encoding='utf-8') as f:
+        mock_mission_body = f.read()
+    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
+                  body=mock_mission_body)
 
     with open(path.join(ROOT, 'mission_unfinished.html'), encoding='utf-8') as f:
         mock_mission_unfinished_body = f.read()
@@ -33,16 +48,6 @@ def mock_api():
         cookie_invalid_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily/redeem?once=74875',
                   body=cookie_invalid_body)
-
-    with open(path.join(ROOT, 'mission_todo.html'), encoding='utf-8') as f:
-        mock_mission_todo_body = f.read()
-    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
-                  body=mock_mission_todo_body)
-
-    with open(path.join(ROOT, 'balance.html'), encoding='utf-8') as f:
-        mock_balance_body = f.read()
-    responses.add(responses.GET, 'https://www.v2ex.com/balance',
-                  body=mock_balance_body)
 
     responses.start()
     yield responses

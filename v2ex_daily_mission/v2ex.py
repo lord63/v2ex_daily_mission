@@ -10,6 +10,8 @@ import requests
 from requests.packages import urllib3
 from bs4 import BeautifulSoup
 
+from v2ex_daily_mission.exceptions import CookieExpiredError
+
 
 # Disable urllib3 warning, see lord63/a_bunch_of_code#9.
 urllib3.disable_warnings()
@@ -42,7 +44,10 @@ class V2ex(object):
         response = self.session.get(
             self.mission_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
-        onclick = soup.find('input', class_='super normal button')['onclick']
+        button = soup.find('input', class_='super normal button')
+        if button is None:
+            raise CookieExpiredError()
+        onclick = button['onclick']
         url = onclick.split('=', 1)[1][2:-2]
 
         if url == '/balance':
@@ -53,7 +58,7 @@ class V2ex(object):
             r = self.session.get('https://www.v2ex.com'+url, verify=False,
                                  headers=headers, data=data, cookies=self.cookie,)
             if not self._check_cookie_valid(r):
-                raise Exception("cookie expired, please renew it.")
+                raise CookieExpiredError()
             balance = self._get_balance()
             return balance
 
