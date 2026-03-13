@@ -14,14 +14,12 @@ from click.testing import CliRunner
 ROOT = path.join(path.dirname(path.abspath(__file__)), 'responses')
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def mock_api():
     # The responses library returns mocked responses in FIFO order for the
-    # same URL. The order here must match the order of calls in the tests:
-    # 1. mission_todo: claim reward successfully (happy path)
-    # 2. mission_complete: mission already completed today
-    # 3. mission_unfinished: cookie expired during redeem (error path)
+    # same URL. The order here must match the order of calls in the tests.
 
+    # 1st sign call: mission not yet done -> redeem -> get balance
     with open(path.join(ROOT, 'mission_todo.html'), encoding='utf-8') as f:
         mock_mission_todo_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
@@ -35,23 +33,16 @@ def mock_api():
     responses.add(responses.GET, 'https://www.v2ex.com/balance',
                   body=mock_balance_body)
 
+    # 2nd sign call: mission already completed today
     with open(path.join(ROOT, 'mission_complete.html'), encoding='utf-8') as f:
         mock_mission_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
                   body=mock_mission_body)
 
-    with open(path.join(ROOT, 'mission_unfinished.html'), encoding='utf-8') as f:
-        mock_mission_unfinished_body = f.read()
-    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
-                  body=mock_mission_unfinished_body)
-    with open(path.join(ROOT, 'cookie_invalid.html'), encoding='utf-8') as f:
-        cookie_invalid_body = f.read()
-    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily/redeem?once=74875',
-                  body=cookie_invalid_body)
-
     responses.start()
     yield responses
     responses.stop()
+    responses.reset()
 
 
 @pytest.fixture(scope='function')

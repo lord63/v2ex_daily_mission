@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+import datetime
 import logging
 import os
 
@@ -55,27 +56,10 @@ class V2ex(object):
         else:
             headers = {'Referer': 'https://www.v2ex.com/mission/daily'}
             data = {'once': url.split('=')[-1]}
-            r = self.session.get('https://www.v2ex.com'+url, verify=False,
-                                 headers=headers, data=data, cookies=self.cookie,)
-            if not self._check_cookie_valid(r):
-                raise CookieExpiredError()
+            self.session.get('https://www.v2ex.com'+url, verify=False,
+                             headers=headers, data=data, cookies=self.cookie,)
             balance = self._get_balance()
             return balance
-
-    # if your cookie cannot get money, your response will have this line:
-    #
-    # <div id="Main">
-    # ...
-    #   <div class="message" onclick="$(this).slideUp('fast');">
-    #     <li class="fa fa-exclamation-triangle"></li>  请重新点击一次以领取每日登录奖励
-    #   </div>
-    # ...
-    # </div>
-    def _check_cookie_valid(self, response):
-        soup = BeautifulSoup(response.text, 'html.parser')
-        if not soup.select('#Main .message'):
-            return True
-        return False
 
     def _get_balance(self):
         """Get to know how much you totally have and how much you get today."""
@@ -85,14 +69,22 @@ class V2ex(object):
         first_line = soup.select(
             "table.data tr:nth-of-type(2)")[0].text.strip().split('\n')
         total, today = first_line[-2:]
+        today_date = self._today()
+        if not today.strip().startswith(today_date):
+            raise CookieExpiredError()
         logging.info('%-26sTotal:%-8s', today, total)
         return '\n'.join([u"Today: {0}".format(today),
                           "Total: {0}".format(total)])
+
+    def _today(self):
+        return datetime.date.today().strftime('%Y%m%d')
 
     def get_last(self):
         """Get to know how long you have kept signing in."""
         response = self.session.get(
             self.mission_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
-        last = soup.select('#Main div')[-1].text
-        return last
+        for span in soup.select('.cell span'):
+            if '已连续登录' in span.get_text():
+                return span.get_text().strip()
+        return "Cannot find sign-in streak info."

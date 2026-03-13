@@ -19,6 +19,6 @@ class TestLast():
     def test_last(self, runner):
         result = runner.invoke(
             cli, ['--config', './tests/v2ex_config.json', 'last'])
-        day = int(re.search(r'\d+', result.output).group())
         assert result.exit_code == 0
+        day = int(re.search(r'\d+', result.output).group())
         assert day == 334
