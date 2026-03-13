@@ -44,7 +44,7 @@ def read_config(ctx, param, config_path):
     return config_path
 
 
-def initialize_nitifier(config):
+def initialize_notifier(config):
     if 'notifier' not in config:
         return NoneNotifier(config)
     if 'bark' in config['notifier']:
@@ -105,7 +105,7 @@ def init(directory):
 @pass_config
 def sign(conf):
     """Sign in and get money."""
-    notifier = initialize_nitifier(conf.config)
+    notifier = initialize_notifier(conf.config)
     try:
         v2ex = V2ex(conf.config)
         balance = v2ex.get_money()
@@ -150,7 +150,7 @@ def last(conf):
 @pass_config
 def notify(conf):
     """Test notify send."""
-    notifier = initialize_nitifier(conf.config)
+    notifier = initialize_notifier(conf.config)
     if isinstance(notifier, NoneNotifier):
         click.echo("There is no notifier configuration.")
         return

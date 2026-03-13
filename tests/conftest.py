@@ -30,9 +30,14 @@ def mock_api():
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
                   body=mock_mission_unfinished_body)
     with open(path.join(ROOT, 'cookie_invalid.html'), encoding='utf-8') as f:
-        cookie_invlaid_body = f.read()
+        cookie_invalid_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily/redeem?once=74875',
-                  body=cookie_invlaid_body)
+                  body=cookie_invalid_body)
+
+    with open(path.join(ROOT, 'mission_todo.html'), encoding='utf-8') as f:
+        mock_mission_todo_body = f.read()
+    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
+                  body=mock_mission_todo_body)
 
     with open(path.join(ROOT, 'balance.html'), encoding='utf-8') as f:
         mock_balance_body = f.read()
