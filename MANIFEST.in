@@ -1,3 +1,0 @@
-include README.md
-include LICENSE
-recursive-include v2ex_daily_mission *.py
