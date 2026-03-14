@@ -3,12 +3,16 @@
 
 from __future__ import absolute_import
 
+import datetime
 import logging
 import os
+import re
 
 import requests
 from requests.packages import urllib3
 from bs4 import BeautifulSoup
+
+from v2ex_daily_mission.exceptions import CookieExpiredError
 
 
 # Disable urllib3 warning, see lord63/a_bunch_of_code#9.
@@ -39,9 +43,13 @@ class V2ex(object):
 
     def get_money(self):
         """Complete daily mission then get the money."""
-        response = self.session.get(self.mission_url, verify=False, cookies=self.cookie)
+        response = self.session.get(
+            self.mission_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
-        onclick = soup.find('input', class_='super normal button')['onclick']
+        button = soup.find('input', class_='super normal button')
+        if button is None:
+            raise CookieExpiredError()
+        onclick = button['onclick']
         url = onclick.split('=', 1)[1][2:-2]
 
         if url == '/balance':
@@ -56,18 +64,27 @@ class V2ex(object):
 
     def _get_balance(self):
         """Get to know how much you totally have and how much you get today."""
-        response = self.session.get(self.balance_url, verify=False, cookies=self.cookie)
+        response = self.session.get(
+            self.balance_url, verify=False, cookies=self.cookie)
         soup = BeautifulSoup(response.text, 'html.parser')
         first_line = soup.select(
             "table.data tr:nth-of-type(2)")[0].text.strip().split('\n')
         total, today = first_line[-2:]
+        today_date = self._today()
+        if not today.strip().startswith(today_date):
+            raise CookieExpiredError()
         logging.info('%-26sTotal:%-8s', today, total)
         return '\n'.join([u"Today: {0}".format(today),
                           "Total: {0}".format(total)])
 
+    def _today(self):
+        return datetime.date.today().strftime('%Y%m%d')
+
     def get_last(self):
         """Get to know how long you have kept signing in."""
-        response = self.session.get(self.mission_url, verify=False, cookies=self.cookie)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        last = soup.select('#Main div')[-1].text
-        return last
+        response = self.session.get(
+            self.mission_url, verify=False, cookies=self.cookie)
+        match = re.search(r'已连续登录\s*\d+\s*天', response.text)
+        if match:
+            return match.group()
+        return "Cannot find sign-in streak info."

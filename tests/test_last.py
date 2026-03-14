@@ -17,8 +17,8 @@ from v2ex_daily_mission.cli import cli
 @pytest.mark.usefixtures('mock_api')
 class TestLast():
     def test_last(self, runner):
-        result = runner.invoke(cli, ['--config', './tests/v2ex_config.json',
-                                     'last'])
-        day = int(re.search(r'\d+', result.output).group())
+        result = runner.invoke(
+            cli, ['--config', './tests/v2ex_config.json', 'last'])
         assert result.exit_code == 0
+        day = int(re.search(r'\d+', result.output).group())
         assert day == 334

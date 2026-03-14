@@ -1,3 +1,9 @@
+2026.03.14 v0.9.0
+- fix `v2ex last` return the wrong element
+- check cookie expired
+- drop python 2.x, support 3.10+
+- migrate to uv and github action
+
 2020.06.03 v0.8.1
 - fix package problem
 
