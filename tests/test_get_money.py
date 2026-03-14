@@ -34,4 +34,5 @@ class TestGetMoney():
     def test_cookie_expired(self, mock_today, runner):
         result = runner.invoke(
             cli, ["--config", "./tests/v2ex_config.json", "sign"])
-        assert "cookie expired" in result.output
+        assert "Cookie expired" in result.output
+        assert "update your cookie" in result.output

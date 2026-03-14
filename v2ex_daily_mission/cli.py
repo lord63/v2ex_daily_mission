@@ -117,9 +117,9 @@ def sign(conf):
     except IndexError:
         notifier.send_notification()
         click.echo('Please check your username and password.')
-    except CookieExpiredError as e:
+    except CookieExpiredError:
         notifier.send_notification()
-        click.echo('Sign failed, error: {}'.format(e))
+        click.echo('Cookie expired, please login V2EX and update your cookie.')
     except Exception as e:
         notifier.send_notification()
         click.echo('Sign failed, error: {}'.format(e))
