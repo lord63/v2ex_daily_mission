@@ -1,6 +1,6 @@
 [project]
 name = "v2ex-daily-mission"
-version = "0.8.1"
+dynamic = ["version"]
 description = "complete mission, get money, from v2ex"
 readme = "README.rst"
 license = { text = "MIT" }
@@ -40,6 +40,9 @@ dev = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "v2ex_daily_mission/__init__.py"
 
 [tool.pytest.ini_options]
 addopts = "-vs"

@@ -1,9 +1,8 @@
 test:
-	@py.test -vs tests/;
-	@py.test --pep8 tests/ v2ex_daily_mission/;
+	@uv run pytest tests/;
 
 create:
-	@python setup.py sdist bdist_wheel;
+	@uv build;
 
 upload:
-	@python setup.py sdist bdist_wheel upload;
+	@uv publish;
