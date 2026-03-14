@@ -1,7 +1,7 @@
 v2ex\_daily\_mission
 ====================
 
-|Latest Version| |Build Status|
+|Latest Version|
 
 ::
 
@@ -22,7 +22,7 @@ v2ex\_daily\_mission
 功能和亮点
 ----------
 
--  Python 2.7+/3.5+ support
+-  Python 3.10+ support
 -  签到领钱
 -  本地日志记录，查询
 -  查询连续登录天数
@@ -164,31 +164,17 @@ Linux 用户建议将任务加入 ``cron`` 定时运行(建议每天执行两次
 Development
 -----------
 
-首先安装依赖，推荐使用 virtualenv:
+首先安装依赖（使用 uv）:
 
 ::
 
-    $ virtualenv venv
-    $ . venv/bin/activate
-    (venv)$ pip install -r dev-requirements.txt
-
-安装开发版本下的 v2ex_daily_mission, 方便调试和测试:
-
-::
-
-    (venv)$ python setup.py develop
+    $ uv sync --group dev
 
 运行测试:
 
 ::
 
-    (venv)$ make test
-
-也可以使用 tox 在 python2.7, 3.4+ 运行测试：
-
-::
-
-    (venv)$ tox
+    $ uv run pytest tests/
 
 License
 -------
@@ -197,7 +183,5 @@ MIT
 
 .. |Latest Version| image:: http://img.shields.io/pypi/v/v2ex_daily_mission.svg
    :target: https://pypi.python.org/pypi/v2ex_daily_mission
-.. |Build Status| image:: https://travis-ci.org/lord63/v2ex_daily_mission.svg
-   :target: https://travis-ci.org/lord63/v2ex_daily_mission
 .. _`issue #13`: https://github.com/lord63/v2ex_daily_mission/issues/13
 .. _bark: https://apps.apple.com/cn/app/bark-%E7%BB%99%E4%BD%A0%E7%9A%84iphone%E5%8F%91%E6%8E%A8%E9%80%81/id1403753865

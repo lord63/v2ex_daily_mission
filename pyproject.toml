@@ -1,5 +1,5 @@
 [project]
-name = "v2ex-daily-mission"
+name = "v2ex_daily_mission"
 dynamic = ["version"]
 description = "complete mission, get money, from v2ex"
 readme = "README.rst"
