@@ -6,6 +6,7 @@ from __future__ import absolute_import
 import datetime
 import logging
 import os
+import re
 
 import requests
 from requests.packages import urllib3
@@ -83,8 +84,7 @@ class V2ex(object):
         """Get to know how long you have kept signing in."""
         response = self.session.get(
             self.mission_url, verify=False, cookies=self.cookie)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        for span in soup.select('.cell span'):
-            if '已连续登录' in span.get_text():
-                return span.get_text().strip()
+        match = re.search(r'已连续登录\s*\d+\s*天', response.text)
+        if match:
+            return match.group()
         return "Cannot find sign-in streak info."
