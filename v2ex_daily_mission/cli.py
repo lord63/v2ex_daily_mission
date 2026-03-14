@@ -14,6 +14,7 @@ import click
 
 from v2ex_daily_mission import __version__
 from v2ex_daily_mission.v2ex import V2ex
+from v2ex_daily_mission.exceptions import CookieExpiredError
 from v2ex_daily_mission.notifier import BarkNotifier, NoneNotifier, SlackNotifier
 
 
@@ -44,7 +45,7 @@ def read_config(ctx, param, config_path):
     return config_path
 
 
-def initialize_nitifier(config):
+def initialize_notifier(config):
     if 'notifier' not in config:
         return NoneNotifier(config)
     if 'bark' in config['notifier']:
@@ -105,7 +106,7 @@ def init(directory):
 @pass_config
 def sign(conf):
     """Sign in and get money."""
-    notifier = initialize_nitifier(conf.config)
+    notifier = initialize_notifier(conf.config)
     try:
         v2ex = V2ex(conf.config)
         balance = v2ex.get_money()
@@ -116,9 +117,12 @@ def sign(conf):
     except IndexError:
         notifier.send_notification()
         click.echo('Please check your username and password.')
+    except CookieExpiredError:
+        notifier.send_notification()
+        click.echo('Cookie expired, please login V2EX and update your cookie.')
     except Exception as e:
         notifier.send_notification()
-        click.echo('Sign failed, error: {}.'.format(e))
+        click.echo('Sign failed, error: {}'.format(e))
 
 
 @cli.command()
@@ -150,7 +154,7 @@ def last(conf):
 @pass_config
 def notify(conf):
     """Test notify send."""
-    notifier = initialize_nitifier(conf.config)
+    notifier = initialize_notifier(conf.config)
     if isinstance(notifier, NoneNotifier):
         click.echo("There is no notifier configuration.")
         return

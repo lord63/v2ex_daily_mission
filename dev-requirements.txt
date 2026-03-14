@@ -1,7 +1,7 @@
 requests
 click
 beautifulsoup4
-pytest
+pytest<6.0
 pytest-pep8
 responses
 tox

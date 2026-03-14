@@ -14,28 +14,27 @@ from click.testing import CliRunner
 ROOT = path.join(path.dirname(path.abspath(__file__)), 'responses')
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def mock_api():
+    # The responses library returns mocked responses in FIFO order for the
+    # same URL. The order here must match the order of calls in the tests.
 
-    with open(path.join(ROOT, 'signin.html'), encoding='utf-8') as f:
-        mock_signin_body = f.read()
-    responses.add(responses.POST, 'https://www.v2ex.com/signin',
-                  body=mock_signin_body)
-    responses.add(responses.GET, 'https://www.v2ex.com/signin',
-                  body=mock_signin_body)
-
+    # 1st sign call: mission not yet done -> redeem -> get balance
+    with open(path.join(ROOT, 'mission_todo.html'), encoding='utf-8') as f:
+        mock_mission_todo_body = f.read()
+    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
+                  body=mock_mission_todo_body)
     with open(path.join(ROOT, 'once.html'), encoding='utf-8') as f:
         mock_once_body = f.read()
-    responses.add(responses.GET,
-                  'https://www.v2ex.com/mission/daily/redeem?once=51947',
+    responses.add(responses.GET, 'https://www.v2ex.com/mission/daily/redeem?once=51947',
                   body=mock_once_body)
-
     with open(path.join(ROOT, 'balance.html'), encoding='utf-8') as f:
         mock_balance_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/balance',
                   body=mock_balance_body)
 
-    with open(path.join(ROOT, 'mission.html'), encoding='utf-8') as f:
+    # 2nd sign call: mission already completed today
+    with open(path.join(ROOT, 'mission_complete.html'), encoding='utf-8') as f:
         mock_mission_body = f.read()
     responses.add(responses.GET, 'https://www.v2ex.com/mission/daily',
                   body=mock_mission_body)
@@ -43,6 +42,7 @@ def mock_api():
     responses.start()
     yield responses
     responses.stop()
+    responses.reset()
 
 
 @pytest.fixture(scope='function')
